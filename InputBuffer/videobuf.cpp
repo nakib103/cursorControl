@@ -1,17 +1,13 @@
 #ifndef VIDEO_INPUT_BUFFER
 #define VIDEO_INPUT_BUFFER
 
-#include "opencv2/core/core.hpp"
-#include "opencv2/video.hpp"
-
 #include <queue>
 
 // class for input buffer interface
-template <typename input>;
 class InputBuffer{
     public:
         virtual void capture() = 0;
-        virtual input get() = 0;
+        template <typename input> input get() = 0;
 };
 
 // class to hold size of video frame

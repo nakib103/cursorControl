@@ -5,19 +5,21 @@
 #include <windows.h>
 #include <string>
 
+// enum for mouse click states
 enum clickStates {
         None, 
         Right, 
         Left
 };
 
+// class to hold position of mouse cursor
 class Position{
     public:
         int x;
         int y;
 };
 
-// base event processor class for mouse events
+// base class for mouse event processor
 class MouseController {
     Position position;   
     clickStates clickState;
@@ -48,7 +50,7 @@ class MouseController {
         virtual void execute() = 0;
 };
 
-// event processor class for mouse movement event
+// class for mouse movement event processor 
 class MouseMover : public MouseController {
     public:
         void execute(){
@@ -70,7 +72,7 @@ class MouseMover : public MouseController {
         }
 };
 
-// event processor class for mouse click event
+// class for mouse click event processor 
 class MouseClicker : public MouseController {
     public:
         void execute(){
@@ -99,7 +101,7 @@ class MouseClicker : public MouseController {
                 SendInput(1,&Input,sizeof(INPUT));
             }
             else{
-                printf("[DEBUG][Controller:mousectl] MouseClicker - No actionable click state");
+                printf("[DEBUG][Controller:mousectl] MouseClicker - No actionable click state\n");
             }
 
             // set input event to zero - TODO delete INPUT

@@ -17,13 +17,19 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 	
-	MouseClicker mouseClicker;
-
-	// mouseClicker.setPosition();
+	// MouseMover mouseMover;
+	// mouseMover.setPosition();
 	// Position pos;
-	// pos = mouseClicker.getPosition();
+	// pos = mouseMover.getPosition();
 	// cout << pos.x << " " << pos.y << endl;
 
+	MouseClicker mouseClicker;
 	mouseClicker.setClickState(Right);
 	mouseClicker.execute();
+
+	VideoInputBuffer videoInput;
+	videoInput.capture();
+	cv::Mat frame = videoInput.get();
+	std::cout << frame.dims << std::endl;
+	std::cout << frame.rows << " " << frame.cols << std::endl;
 }

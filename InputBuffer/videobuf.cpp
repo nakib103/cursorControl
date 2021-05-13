@@ -29,6 +29,11 @@ class VideoInputBuffer : public InputBuffer {
     FrameSize frameSize;
 
     public:
+        VideoInputBuffer(){
+            frameSize.height = 320;
+            frameSize.width = 240;
+        }
+        
         VideoInputBuffer(int height, int width){
             frameSize.height = height;
             frameSize.width = width;

@@ -1,25 +1,31 @@
 #ifndef VIDEO_INPUT_BUFFER
 #define VIDEO_INPUT_BUFFER
 
+#include "opencv2\core\mat.hpp"
+#include "opencv2\highgui.hpp"
+#include "opencv2\imgproc.hpp"
+
 #include <queue>
 
 // class for input buffer interface
 class InputBuffer{
     public:
         virtual void capture() = 0;
-        template <typename input> input get() = 0;
+        // TODO - how to make get function as interface
+        // template <typename input> input get() = 0;
 };
 
 // class to hold size of video frame
 class FrameSize{
-    int height;
-    int width;
+    public:
+        int height;
+        int width;
 };
 
 // class for video input buffer
 class VideoInputBuffer : public InputBuffer {
-    Mat frame;
-    std::queue<Mat> frameBuffer;
+    cv::Mat frame;
+    std::queue<cv::Mat> frameBuffer;
     FrameSize frameSize;
 
     public:
@@ -29,13 +35,13 @@ class VideoInputBuffer : public InputBuffer {
         }
 
         void capture(){
-            VideoCapture capture;
+            cv::VideoCapture capture;
 
             // open webcam to capture a frame
             capture.open (0);
             if (!capture.isOpened ()) { 
                 printf ("[ERROR][InputBuffer:videobuf] VideoInputBUffer - could not open camera\n"); 
-                if (waitKey (0) >= 0) return -1;
+                if (cv::waitKey (0) >= 0) return;
             }
             
             // capture a frame
@@ -47,20 +53,20 @@ class VideoInputBuffer : public InputBuffer {
             }
 
             // resizing and mirroring the frame to reduce calculation and faster application
-            resize (frame, frame, Size(frameSize.height, frameSize,width), 0, 0, INTER_CUBIC);
-            flip (frame, frame, 1);
+            cv::resize (frame, frame, cv::Size(frameSize.height, frameSize.width), 0, 0, cv::INTER_CUBIC);
+            cv::flip (frame, frame, 1);
 
             // insert the captured frame into buffer
-            frameBuf.push(frame);
+            frameBuffer.push(frame);
         }
-
-        Mat get(){
-            if(!frameBuf.empty())
-                return frameBuf.pop();
-            else{
-                Mat empty(frameSize.height, frameSize.width, -1);
-                return empty;
-            } 
+        
+        cv::Mat get(){
+            cv::Mat currentFrame(cv::Size(frameSize.height, frameSize.width), -1);
+            if(!frameBuffer.empty()){
+                currentFrame = frameBuffer.front();
+                frameBuffer.pop();
+            }
+            return currentFrame;
         }
 };
 

@@ -1,8 +1,0 @@
-G:/cursorControl/build/CMakeFiles/INSTALL.dir
-G:/cursorControl/build/CMakeFiles/cursorControl.dir
-G:/cursorControl/build/CMakeFiles/ALL_BUILD.dir
-G:/cursorControl/build/CMakeFiles/ZERO_CHECK.dir
-G:/cursorControl/build/Controller/CMakeFiles/Controller.dir
-G:/cursorControl/build/Controller/CMakeFiles/INSTALL.dir
-G:/cursorControl/build/InputBuffer/CMakeFiles/InputBuffer.dir
-G:/cursorControl/build/InputBuffer/CMakeFiles/INSTALL.dir

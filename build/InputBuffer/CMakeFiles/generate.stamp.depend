@@ -1,9 +1,0 @@
-# CMake generation dependency list for this directory.
-C:/Program Files/CMake/share/cmake-3.20/Modules/FindPackageHandleStandardArgs.cmake
-C:/Program Files/CMake/share/cmake-3.20/Modules/FindPackageMessage.cmake
-G:/Software/opencv/build/x64/vc15/lib/OpenCVConfig-version.cmake
-G:/Software/opencv/build/x64/vc15/lib/OpenCVConfig.cmake
-G:/Software/opencv/build/x64/vc15/lib/OpenCVModules-debug.cmake
-G:/Software/opencv/build/x64/vc15/lib/OpenCVModules-release.cmake
-G:/Software/opencv/build/x64/vc15/lib/OpenCVModules.cmake
-G:/cursorControl/InputBuffer/CMakeLists.txt

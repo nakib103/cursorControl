@@ -1,112 +1,137 @@
-#ifndef MOUSE_CONTROLLER
-#define MOUSE_CONTROLLER
+#ifndef CC_MOUSE_CONTROLLER
+#define CC_MOUSE_CONTROLLER
 
-#include <utility>
+#include "Controller.h"
+
 #include <windows.h>
-#include <string>
 
-// enum for mouse click states
-enum clickStates {
-        None, 
-        Right, 
-        Left
-};
+MouseController::MouseController(){
+    // StateNames mousePosition = mouse_position;
+    Position position;
+    setState(StateNames::mouse_position, &ControllerStateValue<Position>(position));
+    
+    // StateNames mouseClickState = mouse_click_state;
+    ClickStates clickState{};
+    setState(StateNames::mouse_click_state, &ControllerStateValue<ClickStates>(clickState));
+}
 
-// class to hold position of mouse cursor
-class Position{
-    public:
-        int x;
-        int y;
-};
+// void MouseController::setPosition(){
+//     POINT cursorPos;
+//     GetCursorPos(&cursorPos);
 
-// base class for mouse event processor
-class MouseController {
-    Position position;   
-    clickStates clickState;
+//     // xPos = (xPos / 1365.0) * frameRes_width;
+//     // yPos = (yPos / 767.0) * frameRes_height;
+//     position.x = cursorPos.x;
+//     position.y = cursorPos.y;
+// }
 
-    public:
-        Position getPosition(){
-            return position;
-        }
+// void MouseMover::execute(){
+//     // get mouse position
+//     Position position = getPosition();
 
-        void setPosition(){
-            POINT cursorPos;
-            GetCursorPos(&cursorPos);
+//     // create an mouse input event
+//     INPUT Input = {0};
+//     Input.type = INPUT_MOUSE;
+//     Input.mi.dwFlags = MOUSEEVENTF_MOVE|MOUSEEVENTF_ABSOLUTE;
 
-            // xPos = (xPos / 1365.0) * frameRes_width;
-            // yPos = (yPos / 767.0) * frameRes_height;
-            position.x = cursorPos.x;
-            position.y = cursorPos.y;
-        }
+//     // move mouse cursor
+//     Input.mi.dx = LONG(position.x);
+//     Input.mi.dy = LONG(position.y);
+//     SendInput(1,&Input,sizeof(INPUT));
 
-        clickStates getClickState(){
-            return clickState;
-        }
+//     // set input event to zero - TODO delete INPUT
+//     ZeroMemory(&Input,sizeof(INPUT));
+// }
+void MouseMover::execute(){
+    // get mouse position
+    // StateNames mousePosition = mouse_position;
+    ControllerState* mouseMoveState = getState(StateNames::mouse_position);
+    Position position = mouseMoveState->value();
 
-        void setClickState(clickStates state){
-            clickState = state;
-        }
+    // create an mouse input event
+    INPUT Input = {0};
+    Input.type = INPUT_MOUSE;
+    Input.mi.dwFlags = MOUSEEVENTF_MOVE|MOUSEEVENTF_ABSOLUTE;
 
-        virtual void execute() = 0;
-};
+    // move mouse cursor
+    Input.mi.dx = LONG(position->x);
+    Input.mi.dy = LONG(position->y);
+    SendInput(1,&Input,sizeof(INPUT));
 
-// class for mouse movement event processor 
-class MouseMover : public MouseController {
-    public:
-        void execute(){
-            // get mouse position
-            Position position = getPosition();
+    // set input event to zero - TODO delete INPUT
+    ZeroMemory(&Input,sizeof(INPUT));
+}
 
-            // create an mouse input event
-            INPUT Input = {0};
-            Input.type = INPUT_MOUSE;
-            Input.mi.dwFlags = MOUSEEVENTF_MOVE|MOUSEEVENTF_ABSOLUTE;
-            
-            // move mouse cursor
-            Input.mi.dx = LONG(position.x);
-            Input.mi.dy = LONG(position.y);
-            SendInput(1,&Input,sizeof(INPUT));
-        
-            // set input event to zero - TODO delete INPUT
-            ZeroMemory(&Input,sizeof(INPUT));
-        }
-};
+// void MouseClicker::execute(){
+//     // get click state
+//     clickStates clickState = getClickState();
+//     // create and mouse input event
+//     INPUT Input = {0};
+//     Input.type = INPUT_MOUSE;
 
-// class for mouse click event processor 
-class MouseClicker : public MouseController {
-    public:
-        void execute(){
-            // get click state
-            clickStates clickState = getClickState();
-            // create and mouse input event
-            INPUT Input = {0};
-            Input.type = INPUT_MOUSE;
+//     if(clickState == Right){
+//         // hold down mouse right button
+//         Input.mi.dwFlags = MOUSEEVENTF_RIGHTDOWN;
+//         SendInput(1,&Input,sizeof(INPUT));
 
-            if(clickState == Right){
-                // hold down mouse right button
-                Input.mi.dwFlags = MOUSEEVENTF_RIGHTDOWN;
-                SendInput(1,&Input,sizeof(INPUT));
+//         // release mouse right button
+//         Input.mi.dwFlags = MOUSEEVENTF_RIGHTUP;
+//         SendInput(1,&Input,sizeof(INPUT));
+//     }
+//     else if(clickState == Left){
+//         // hold down mouse left button
+//         Input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
+//         SendInput(1,&Input,sizeof(INPUT));
 
-                // release mouse right button
-                Input.mi.dwFlags = MOUSEEVENTF_RIGHTUP;
-                SendInput(1,&Input,sizeof(INPUT));
-            }
-            else if(clickState == Left){
-                // hold down mouse left button
-                Input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
-                SendInput(1,&Input,sizeof(INPUT));
+//         // release mouse left button 
+//         Input.mi.dwFlags = MOUSEEVENTF_LEFTUP;
+//         SendInput(1,&Input,sizeof(INPUT));
+//     }
+//     else{
+//         printf("[DEBUG][Controller:mousectl] MouseClicker - No actionable click state\n");
+//     }
 
-                // release mouse left button 
-                Input.mi.dwFlags = MOUSEEVENTF_LEFTUP;
-                SendInput(1,&Input,sizeof(INPUT));
-            }
-            else{
-                printf("[DEBUG][Controller:mousectl] MouseClicker - No actionable click state\n");
-            }
+//     // set input event to zero - TODO delete INPUT
+//     ZeroMemory(&Input,sizeof(INPUT));
+// }
+void MouseClicker::execute(){
+    // get click state
+    // StateNames stateName = mouse_click_state;
+    // printf("I am here\n");
+    // ClickStates* clickState = NULL;
+    // printf("init state %p\n", clickState);
+    ControllerState* clickState = getState(StateNames::mouse_click_state);
+    // printf("state %d\n", 1000);
+    // printf("last state %p\n", clickState);
 
-            // set input event to zero - TODO delete INPUT
-            ZeroMemory(&Input,sizeof(INPUT));
-        }
-};
+    // create and mouse input event
+    INPUT Input = {0};
+    Input.type = INPUT_MOUSE;
+
+    if(*clickState == ClickStates::Right){
+        // hold down mouse right button
+        Input.mi.dwFlags = MOUSEEVENTF_RIGHTDOWN;
+        SendInput(1,&Input,sizeof(INPUT));
+
+        // release mouse right button
+        Input.mi.dwFlags = MOUSEEVENTF_RIGHTUP;
+        SendInput(1,&Input,sizeof(INPUT));
+    }
+    else if(*clickState == ClickStates::Left){
+        // hold down mouse left button
+        Input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN;
+        SendInput(1,&Input,sizeof(INPUT));
+
+        // release mouse left button 
+        Input.mi.dwFlags = MOUSEEVENTF_LEFTUP;
+        SendInput(1,&Input,sizeof(INPUT));
+    }
+    else{
+        printf("[DEBUG][Controller:mousectl] MouseClicker - No actionable click state\n");
+    }
+
+    // set input event to zero - TODO delete INPUT
+    ZeroMemory(&Input,sizeof(INPUT));
+}
 
 #endif

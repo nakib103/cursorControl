@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
 
 	MouseClicker mouseClicker;
 	ClickStates clickState = ClickStates::Right;
-	mouseClicker.setState(StateNames::mouse_click_state, &ControllerStateValue<ClickStates>(clickState));
+	mouseClicker.setState(StateNames::mouse_click_state, ControllerStateValue<ClickStates>(clickState));
 	mouseClicker.execute();
 
 	VideoInputBuffer videoInput;

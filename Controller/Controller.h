@@ -1,9 +1,17 @@
 #ifndef CC_CONTROLLER
 #define CC_CONTROLLER
 
+#include "boost\variant.hpp"
+
 #include <utility>
 #include <string>
 #include <map>
+
+// enum for controller state names
+enum class StateNames{
+    mouse_position,
+    mouse_click_state
+};
 
 // enum for mouse click states
 enum class ClickStates{ None, Right, Left };
@@ -16,39 +24,27 @@ class Position{
         Position() { x = -1; y = -1; }
 };
 
-// enum for controller state
-enum class StateNames{
-    mouse_position,
-    mouse_click_state
-};
-
-// Base class for controller state
-class ControllerState{
-    public:
-        // template <typename StateValue> void value(StateValue* stateValue){ stateValue = NULL; };
-};
-
-// class to create controller state
+// template class to create controller state value
 template <typename StateValue>
-class ControllerStateValue : public ControllerState{
+class ControllerStateValue{
     StateValue stateValue;
     public:
+        ControllerStateValue() {};
         ControllerStateValue(StateValue value) : stateValue(value) {};
         StateValue value() { return stateValue; };
 };
 
+// typedef of controller state value types 
+typedef boost::variant<ControllerStateValue<Position>,ControllerStateValue<ClickStates>> StateValues; 
+
 // base class for contorller
 class Controller {
-    std::map<StateNames, ControllerState*> states;
+    std::map< StateNames, StateValues > states;
     public:
-        void setState(StateNames stateName, ControllerState* stateValue){ states[stateName] = stateValue; }
-        ControllerState* getState(StateNames name){ return states[name]; }
+        template <typename StateValue> void setState(StateNames stateName, StateValue stateValue){ states[stateName] = stateValue; }
+        template <typename StateValue> StateValue getState(StateNames name){ return boost::get<StateValue>(states[name]); }
         virtual void execute() = 0;
 };
-// class Controller {
-//     public:
-//         virtual void execute() = 0;
-// };
 
 // base class for mouse event processor
 class MouseController : public Controller {
@@ -56,18 +52,6 @@ class MouseController : public Controller {
         MouseController();
         virtual void execute() = 0;
 };
-// base class for mouse event processor
-// class MouseController : public Controller {
-//     Position position;   
-//     ClickStates clickState;
-
-//     public:
-//         Position getPosition(){ return position; }
-//         void setPosition();
-//         ClickStates getClickState(){ return clickState; }
-//         void setClickState(ClickStates state){ clickState = state; }
-//         virtual void execute() = 0;
-// };
 
 // class for mouse movement event processor 
 class MouseMover : public MouseController {

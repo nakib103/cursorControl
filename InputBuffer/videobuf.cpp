@@ -3,6 +3,15 @@
 
 #include "InputBuffer.h"
 
+template <typename Input> Input InputBuffer<Input>::get(){
+    Input input;
+    if(!inputBuffer.empty()){
+        input = inputBuffer.front();
+        inputBuffer.pop();
+    }
+    return input;
+}
+
 VideoInputBuffer::VideoInputBuffer(){
     frameSize.height = 320;
     frameSize.width = 240;
@@ -15,6 +24,7 @@ VideoInputBuffer::VideoInputBuffer(int height, int width){
 
 void VideoInputBuffer::capture(){
     cv::VideoCapture capture;
+    cv::Mat frame;
 
     // open webcam to capture a frame
     capture.open (0);
@@ -36,16 +46,15 @@ void VideoInputBuffer::capture(){
     cv::flip (frame, frame, 1);
 
     // insert the captured frame into buffer
-    frameBuffer.push(frame);
+    put(frame);
 }
 
-cv::Mat VideoInputBuffer::get(){
+// TEMP - just for testing; will be deleted later
+void VideoInputBuffer::show(){
     cv::Mat currentFrame(cv::Size(frameSize.height, frameSize.width), -1);
-    if(!frameBuffer.empty()){
-        currentFrame = frameBuffer.front();
-        frameBuffer.pop();
-    }
-    return currentFrame;
+    currentFrame = get();
+    cv::imshow("test get", currentFrame);
+    cv::waitKey();
 }
 
 #endif

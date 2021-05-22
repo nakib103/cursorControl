@@ -1,4 +1,9 @@
-add_library(EventProcessor channel.cpp)
+add_library(EventProcessor channel.cpp generator.cpp)
 
-install(TARGET EventProcessor DESTINATION lib)
+target_link_libraries(EventProcessor PUBLIC
+                    Controller
+                    InputBuffer
+                    )
+
+install(TARGETS EventProcessor DESTINATION lib)
 install(FILES EventProcessor.h DESTINATION include)

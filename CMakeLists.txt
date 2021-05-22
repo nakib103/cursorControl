@@ -9,13 +9,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 configure_file(cursorControl.h.in cursorControl.h)
 
+# include subdirectories to be built
 add_subdirectory(Controller)
 add_subdirectory(InputBuffer)
+add_subdirectory(EventProcessor)
 
 # add executables
 add_executable(cursorControl cursorControl.cpp)
 
-# include Boost 
+# include third-party packages 
 set(BOOST_ROOT "G:\\Software\\boost") 
 find_package(Boost 1.76.0) 
 if(Boost_FOUND)
@@ -25,6 +27,7 @@ endif()
 target_link_libraries(cursorControl PUBLIC
                     Controller
                     InputBuffer
+                    EventProcessor
                     )
 
 target_include_directories(cursorControl PUBLIC

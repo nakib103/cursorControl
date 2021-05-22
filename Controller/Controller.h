@@ -22,6 +22,7 @@ class Position{
         int x;
         int y;
         Position() { x = -1; y = -1; }
+        Position(int x_p, int y_p) { x = x_p; y = y_p; }
 };
 
 // template class to create controller state value

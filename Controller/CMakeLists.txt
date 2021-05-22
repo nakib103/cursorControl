@@ -12,5 +12,10 @@ if(Boost_FOUND)
                         ${Boost_LIBRARIES})
 endif()
 
+target_include_directories(Controller PUBLIC 
+                        ../
+                        ${Boost_INCLUDE_DIR}
+                        )
+
 install(TARGETS Controller DESTINATION lib)
 install(FILES Controller.h DESTINATION include)

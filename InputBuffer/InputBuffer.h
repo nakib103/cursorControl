@@ -8,11 +8,13 @@
 #include <queue>
 
 // class for input buffer interface
+template <typename Input> 
 class InputBuffer{
+    std::queue<Input> inputBuffer;
     public:
+        void put(Input input){ inputBuffer.push(input); }
+        Input get();
         virtual void capture() = 0;
-        // TODO - how to make get function as interface
-        // template <typename input> input get() = 0;
 };
 
 // class to hold size of frame such as video frame
@@ -23,24 +25,16 @@ class FrameSize{
 };
 
 // class for video input buffer
-class VideoInputBuffer : public InputBuffer {
-    cv::Mat frame;
-    std::queue<cv::Mat> frameBuffer;
+class VideoInputBuffer : public InputBuffer<cv::Mat> {
     FrameSize frameSize;
 
     public:
         VideoInputBuffer();
         VideoInputBuffer(int height, int width);
         void capture();
-        cv::Mat get();
 
         // TEMP - just for testing; will be deleted later
-        void show(){
-            cv::Mat currentFrame(cv::Size(frameSize.height, frameSize.width), -1);
-            currentFrame = get();
-            cv:: imshow ("test get", currentFrame);
-            cv::waitKey();
-        }
+        void show();
 };
 
 #endif

@@ -4,6 +4,7 @@
 #include "cursorControl.h"
 #include "Controller\Controller.h"
 #include "InputBuffer\InputBuffer.h"
+#include "EventProcessor\EventProcessor.h"
 
 #include <iostream>
 #include <cstdio>
@@ -17,21 +18,41 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 	
+	MouseMover mouseMover;
+	VideoInputBuffer videoInputBuffer;
+	
+	MouseMoverEventChannel mouseMoverEventChannel;
+	mouseMoverEventChannel.attach(mouseMover);
+	
+	MouseMoverEventGenerator mouseMoverEventGenerator;
+	mouseMoverEventGenerator.setInputBuffer(&videoInputBuffer);
+	mouseMoverEventGenerator.setEventChannel(&mouseMoverEventChannel);
+
+	videoInputBuffer.capture();
+	mouseMoverEventGenerator.run();
+
 	// MouseMover mouseMover;
-	// mouseMover.setPosition();
-	// Position pos;
-	// pos = mouseMover.getPosition();
-	// cout << pos.x << " " << pos.y << endl;
+	// Position position(65535, 123);
+	// mouseMover.setState(StateNames::mouse_position, ControllerStateValue<Position>(position));
+	// mouseMover.execute();
 
 	MouseClicker mouseClicker;
-	ClickStates clickState = ClickStates::Right;
-	mouseClicker.setState(StateNames::mouse_click_state, ControllerStateValue<ClickStates>(clickState));
-	mouseClicker.execute();
+	MouseClickerEventChannel mouseClickerEventChannel;
+	mouseClickerEventChannel.attach(mouseClicker);
 
-	VideoInputBuffer videoInput;
-	videoInput.capture();
-	// cv::Mat frame = videoInput.get();
-	// std::cout << frame.dims << std::endl;
-	// std::cout << frame.rows << " " << frame.cols << std::endl;
-	videoInput.show();
+	MouseClickerEventGenerator mouseClickerEventGenerator;
+	mouseClickerEventGenerator.setInputBuffer(&videoInputBuffer);
+	mouseClickerEventGenerator.setEventChannel(&mouseClickerEventChannel);
+	
+	videoInputBuffer.capture();
+	mouseClickerEventGenerator.run();
+
+	// MouseClicker mouseClicker;
+	// ClickStates clickState = ClickStates::Right;
+	// mouseClicker.setState(StateNames::mouse_click_state, ControllerStateValue<ClickStates>(clickState));
+	// mouseClicker.execute();
+
+	// VideoInputBuffer videoInput;
+	// videoInput.capture();
+	// videoInput.show();
 }

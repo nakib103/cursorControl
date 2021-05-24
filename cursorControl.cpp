@@ -2,8 +2,9 @@
 #define _WIN32_WINNT 0x500
 
 #include "cursorControl.h"
-#include "Controller\mousectl.cpp"
-#include "InputBuffer\videobuf.cpp"
+#include "Controller\Controller.h"
+#include "InputBuffer\InputBuffer.h"
+#include "EventProcessor\EventProcessor.h"
 
 #include <iostream>
 #include <cstdio>
@@ -17,13 +18,41 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 	
+	MouseMover mouseMover;
+	VideoInputBuffer videoInputBuffer;
+	
+	MouseMoverEventChannel mouseMoverEventChannel;
+	mouseMoverEventChannel.attach(mouseMover);
+	
+	MouseMoverEventGenerator mouseMoverEventGenerator;
+	mouseMoverEventGenerator.setInputBuffer(&videoInputBuffer);
+	mouseMoverEventGenerator.setEventChannel(&mouseMoverEventChannel);
+
+	videoInputBuffer.capture();
+	mouseMoverEventGenerator.run();
+
+	// MouseMover mouseMover;
+	// Position position(65535, 123);
+	// mouseMover.setState(StateNames::mouse_position, ControllerStateValue<Position>(position));
+	// mouseMover.execute();
+
 	MouseClicker mouseClicker;
+	MouseClickerEventChannel mouseClickerEventChannel;
+	mouseClickerEventChannel.attach(mouseClicker);
 
-	// mouseClicker.setPosition();
-	// Position pos;
-	// pos = mouseClicker.getPosition();
-	// cout << pos.x << " " << pos.y << endl;
+	MouseClickerEventGenerator mouseClickerEventGenerator;
+	mouseClickerEventGenerator.setInputBuffer(&videoInputBuffer);
+	mouseClickerEventGenerator.setEventChannel(&mouseClickerEventChannel);
+	
+	videoInputBuffer.capture();
+	mouseClickerEventGenerator.run();
 
-	mouseClicker.setClickState(Right);
-	mouseClicker.execute();
+	// MouseClicker mouseClicker;
+	// ClickStates clickState = ClickStates::Right;
+	// mouseClicker.setState(StateNames::mouse_click_state, ControllerStateValue<ClickStates>(clickState));
+	// mouseClicker.execute();
+
+	// VideoInputBuffer videoInput;
+	// videoInput.capture();
+	// videoInput.show();
 }

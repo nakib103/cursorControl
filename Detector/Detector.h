@@ -15,21 +15,21 @@
 
 // base class for face detector
 template <typename DetectedOutput>
-class FaceDetector{
+class Detector{
     int type;
     public:
         virtual DetectedOutput detect(int argc, ...) = 0;
 };
 
 // class for face detector using opencv tempalte matching
-class CVTemplateFaceDetector : public FaceDetector<cv::Point>{
+class CVTemplateFaceDetector : public Detector<cv::Point>{
     int matchMethod = cv::TM_CCOEFF_NORMED;
     public:
         cv::Point detect(int argc, ...);
 };
 
 // class for face detector using opencv haar cascade classifier
-class CVCascadeFaceDetector : public FaceDetector<cv::Rect>{
+class CVCascadeFaceDetector : public Detector<cv::Rect>{
     cv::String faceCascadeName = "G:\\Software\\opencv\\sources\\data\\haarcascades\\haarcascade_frontalface_alt.xml";
     cv::CascadeClassifier faceCascade;
     public:

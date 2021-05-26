@@ -13,7 +13,8 @@ configure_file(cursorControl.h.in cursorControl.h)
 add_subdirectory(Controller)
 add_subdirectory(InputBuffer)
 add_subdirectory(EventProcessor)
-add_subdirectory(FaceDetector)
+add_subdirectory(Detector)
+add_subdirectory(Engine)
 
 # add executables
 add_executable(cursorControl cursorControl.cpp)
@@ -34,7 +35,8 @@ target_link_libraries(cursorControl PUBLIC
                     Controller
                     InputBuffer
                     EventProcessor
-                    FaceDetector
+                    Detector
+                    Engine
                     ${OpenCV_LIBS}
                     )
 

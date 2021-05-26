@@ -59,7 +59,9 @@ class EventGenerator{
 class MouseMoverEventGenerator : public EventGenerator<VideoInputBuffer, MouseMover, Position>{
     cv::Mat faceTemplate;
     public:
+        MouseMoverEventGenerator(){}
         MouseMoverEventGenerator(cv::Mat face){ faceTemplate = face; }
+        void setFaceTemplate(cv::Mat face){ faceTemplate = face; }
         void run();
 };
 

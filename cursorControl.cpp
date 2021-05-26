@@ -6,6 +6,7 @@
 #include "InputBuffer\InputBuffer.h"
 #include "EventProcessor\EventProcessor.h"
 #include "FaceDetector\FaceDetector.h"
+#include "Engine\Engine.h"
 #include "opencv2\core\mat.hpp"
 #include "opencv2\core\types.hpp"
 
@@ -20,6 +21,10 @@ int main(int argc, char* argv[]) {
 		printf("Usage: %s Number", argv[0]);
 		return 1;
 	}
+
+	MouseEngine mouseEngine(100, 300);
+	mouseEngine.runTask();
+	return 1;
 
 	VideoInputBuffer videoInputBuffer;
 	videoInputBuffer.capture();

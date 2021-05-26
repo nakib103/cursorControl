@@ -22,7 +22,9 @@ void MouseMoverEventGenerator::run(){
     // get mouse postion relative to screen
     int x = faceLocation.x * (65535.0 / input.rows);
     int y = faceLocation.y * (65535.0 / input.cols);
-    printf("[DEBUG][EventProcessor:genarator] run - mouse position conversion %d %d (%d %d) >> %d %d\n", faceLocation.x, faceLocation.y, input.rows, input.cols, x, y);
+    
+    // print mouse position conversion for debug purpose
+    // printf("[DEBUG][EventProcessor:genarator] run - mouse position conversion %d %d (%d %d) >> %d %d\n", faceLocation.x, faceLocation.y, input.rows, input.cols, x, y);
 
     // create an controller event
     Event<Position> event;

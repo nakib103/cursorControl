@@ -1,14 +1,14 @@
 #ifndef CC_CV_FACE_DETECTOR
 #define CC_CV_FACE_DETECTOR
 
-#include "FaceDetector.h"
+#include "Detector.h"
 
 cv::Point CVTemplateFaceDetector::detect(int argc, ...){
 	cv::Point matchLocation;
 
 	// assert argument number
     if(argc != 2){
-		printf("[ERROR][FaceDetector:cvfacedetect] detect - there must be 2 arguments\n");
+		printf("[ERROR][Detector:cvfacedetect] detect - there must be 2 arguments\n");
 		return matchLocation;
 	}
 
@@ -48,7 +48,7 @@ cv::Rect CVCascadeFaceDetector::detect(int argc, ...){
 
 	// assert argument number
 	if(argc != 1){
-		printf("[ERROR][FaceDetector:cvfacedetect] detect - there must be 1 argument\n");
+		printf("[ERROR][Detector:cvfacedetect] detect - there must be 1 argument\n");
 		return face;
 	}
 
@@ -61,7 +61,7 @@ cv::Rect CVCascadeFaceDetector::detect(int argc, ...){
 	// load the face cascades
     if (!faceCascade.load(faceCascadeName)) 
 	{ 
-		printf("[ERROR][FaceDetector:cvfacedetect] detect - error loading face cascade\n"); 
+		printf("[ERROR][Detector:cvfacedetect] detect - error loading face cascade\n"); 
 		return face;
 	}
 	
@@ -74,7 +74,7 @@ cv::Rect CVCascadeFaceDetector::detect(int argc, ...){
     
 	// if faces are found show them and set the empty pointer to 0
 	if (faces.empty()){
-		printf("[WARNING][FaceDetector:cvfacedetect] detect - no face detected\n");
+		printf("[WARNING][Detector:cvfacedetect] detect - no face detected\n");
 		return face;
 	}
 

@@ -3,7 +3,7 @@
 
 #include "Controller\Controller.h"
 #include "InputBuffer\InputBuffer.h"
-#include "FaceDetector\FaceDetector.h"
+#include "Detector\Detector.h"
 #include "opencv2\core\mat.hpp"
 #include "opencv2\core\types.hpp"
 

@@ -8,7 +8,7 @@ target_link_libraries(Engine PUBLIC
                     Controller
                     InputBuffer
                     EventProcessor
-                    FaceDetector
+                    Detector
                     ${OpenCV_LIBS}
                     )
 

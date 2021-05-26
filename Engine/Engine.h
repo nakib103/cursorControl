@@ -4,7 +4,7 @@
 #include "InputBuffer\InputBuffer.h"
 #include "Controller\Controller.h"
 #include "EventProcessor\EventProcessor.h"
-#include "FaceDEtector\FaceDetector.h"
+#include "Detector\Detector.h"
 #include "opencv2\core\mat.hpp"
 #include "opencv2\core\types.hpp"
 

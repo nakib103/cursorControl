@@ -5,7 +5,7 @@
 #include "Controller\Controller.h"
 #include "InputBuffer\InputBuffer.h"
 #include "EventProcessor\EventProcessor.h"
-#include "FaceDetector\FaceDetector.h"
+#include "Detector\Detector.h"
 #include "Engine\Engine.h"
 #include "opencv2\core\mat.hpp"
 #include "opencv2\core\types.hpp"
@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	MouseEngine mouseEngine(100, 300);
+	MouseEngine mouseEngine(1, 300);
 	mouseEngine.runTask();
 	return 1;
 

@@ -5,6 +5,9 @@
 #include "Controller\Controller.h"
 #include "InputBuffer\InputBuffer.h"
 #include "EventProcessor\EventProcessor.h"
+#include "FaceDetector\FaceDetector.h"
+#include "opencv2\core\mat.hpp"
+#include "opencv2\core\types.hpp"
 
 #include <iostream>
 #include <cstdio>
@@ -13,18 +16,30 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 	if (argc < 2) {
-		printf("%s Version %d.%d\n", argv[0], cursorControl_VERSION_MAJOR, cursorControl_VERSION_MINOR);
+		printf("%s Version %d.%d.%d\n", argv[0], cursorControl_VERSION_MAJOR, cursorControl_VERSION_MINOR, cursorControl_VERSION_PATCH);
 		printf("Usage: %s Number", argv[0]);
 		return 1;
 	}
-	
-	MouseMover mouseMover;
+
 	VideoInputBuffer videoInputBuffer;
+	videoInputBuffer.capture();
+	cv::Mat frame = videoInputBuffer.get();
+
+	CVCascadeFaceDetector faceDetector;
+	// cv::Rect face = faceDetector.detect(frame);
+	cv::Rect face = faceDetector.detect(1, frame);
+	if(face.empty()){
+		printf("[ERROR][cursorControl] face detector returned empty rectangle\n");
+	}
+
+	cv::Mat faceTemplate(frame, face);
+
+	MouseMover mouseMover;
 	
 	MouseMoverEventChannel mouseMoverEventChannel;
 	mouseMoverEventChannel.attach(mouseMover);
 	
-	MouseMoverEventGenerator mouseMoverEventGenerator;
+	MouseMoverEventGenerator mouseMoverEventGenerator(faceTemplate);
 	mouseMoverEventGenerator.setInputBuffer(&videoInputBuffer);
 	mouseMoverEventGenerator.setEventChannel(&mouseMoverEventChannel);
 

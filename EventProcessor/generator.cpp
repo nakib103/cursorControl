@@ -15,9 +15,17 @@ void MouseMoverEventGenerator::run(){
         return;
     }
 
-    // create an controller event 
+    // detect face location
+    CVTemplateFaceDetector faceDetector;
+    cv::Point faceLocation = faceDetector.detect(2, input, faceTemplate);
+
+    // get mouse postion relative to screen
+    int x = faceLocation.x / input.rows * 65535;
+    int y = faceLocation.y / input.cols * 65535;
+
+    // create an controller event
     Event<Position> event;
-    Position position(123, 65535);
+    Position position(x, y);
     event.setStateName(StateNames::mouse_position);
     event.setStateValue(ControllerStateValue<Position>(position));
 

@@ -3,7 +3,9 @@
 
 #include "Controller\Controller.h"
 #include "InputBuffer\InputBuffer.h"
+#include "FaceDetector\FaceDetector.h"
 #include "opencv2\core\mat.hpp"
+#include "opencv2\core\types.hpp"
 
 #include <vector>
 
@@ -55,7 +57,9 @@ class EventGenerator{
 
 // class for mouse mover event generator
 class MouseMoverEventGenerator : public EventGenerator<VideoInputBuffer, MouseMover, Position>{
+    cv::Mat faceTemplate;
     public:
+        MouseMoverEventGenerator(cv::Mat face){ faceTemplate = face; }
         void run();
 };
 

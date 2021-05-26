@@ -30,7 +30,17 @@ int main(int argc, char* argv[]) {
 	cv::Rect face = faceDetector.detect(1, frame);
 	if(face.empty()){
 		printf("[ERROR][cursorControl] face detector returned empty rectangle\n");
+		return -1;
 	}
+
+	// TEMP - show elipse on face
+	cv::Point center;
+	center.x = face.x + face.width / 2;
+	center.y = face.y + face.height / 2;
+	cv::ellipse(frame, center, cv::Size(face.width / 2, face.height / 2), 0, 0, 360, 
+				cv::Scalar(255, 0, 255), 4, 8, 0);
+	cv::imshow ("Face detection", frame);
+    cv::waitKey();
 
 	cv::Mat faceTemplate(frame, face);
 

@@ -9,6 +9,23 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 configure_file(cursorControl.h.in cursorControl.h)
 
+# include third-party packages 
+find_package(Boost 1.76.0 REQUIRED) 
+if(Boost_FOUND)
+    message(STATUS "Boost_VERSION: ${Boost_VERSION}")
+    message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
+    message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
+    include_directories(${Boost_INCLUDE_DIR}) 
+endif()
+
+find_package(OpenCV REQUIRED)
+if(OpenCV_FOUND)
+    message(STATUS "OpenCV_VERSION: ${OpenCV_VERSION}")
+    message(STATUS "OpenCV_INCLUDE_DIRS: ${OpenCV_INCLUDE_DIRS}")
+    message(STATUS "OpenCV_LIBRARIES: ${OpenCV_LIBS}")
+    include_directories(${OpenCV_INCLUDE_DIRS})
+endif()
+
 # include subdirectories to be built
 add_subdirectory(Controller)
 add_subdirectory(InputBuffer)
@@ -18,18 +35,6 @@ add_subdirectory(Engine)
 
 # add executables
 add_executable(cursorControl cursorControl.cpp)
-
-# include third-party packages 
-set(BOOST_ROOT "G:\\Software\\boost") 
-set(OpenCV_DIR "G:\\Software\\opencv\\build\\x64\\vc15\\lib")
-
-find_package(Boost 1.76.0) 
-find_package(OpenCV REQUIRED)
-
-if(Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIR}) 
-endif()
-include_directories(${OpenCV_INCLUDE_DIRS})
 
 target_link_libraries(cursorControl PUBLIC
                     Controller

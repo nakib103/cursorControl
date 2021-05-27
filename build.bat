@@ -1,3 +1,5 @@
+:: build script for cursorControl package
+
 set env=%1
 
 if %env% == local GOTO :LOCALBUILD

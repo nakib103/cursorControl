@@ -10,6 +10,7 @@ sudo apt-get -y upgrade
 # Install OS Libraries
 
 # Install Dependencies
+sudo apt-get install qt5-default
 # sudo apt-get -y install build-essential checkinstall cmake pkg-config yasm gfortran git
 # sudo apt-get -y install libjpeg8-dev libjasper-dev libpng12-dev
 # Used for Ubuntu 16.04

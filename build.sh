@@ -10,7 +10,7 @@ sudo apt-get -y upgrade
 # Install OS Libraries
 
 # Install Dependencies
-sudo apt-get install qt5-default
+sudo apt-get -y install qt5-default tar
 # sudo apt-get -y install build-essential checkinstall cmake pkg-config yasm gfortran git
 # sudo apt-get -y install libjpeg8-dev libjasper-dev libpng12-dev
 # Used for Ubuntu 16.04
@@ -50,16 +50,23 @@ mkdir -p build
 cd build
 
 # run CMake with the following options
+# cmake -D CMAKE_BUILD_TYPE=RELEASE \
+#       -D CMAKE_INSTALL_PREFIX=/usr/local \
+#       -D INSTALL_C_EXAMPLES=ON \
+#       -D INSTALL_PYTHON_EXAMPLES=ON \
+#       -D WITH_TBB=ON \
+#       -D WITH_V4L=ON \
+#       -D WITH_QT=ON \
+#       -D WITH_OPENGL=ON \
+#       -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
+#       -D BUILD_EXAMPLES=ON ..
 cmake -D CMAKE_BUILD_TYPE=RELEASE \
       -D CMAKE_INSTALL_PREFIX=/usr/local \
-      -D INSTALL_C_EXAMPLES=ON \
-      -D INSTALL_PYTHON_EXAMPLES=ON \
+      -D BUILD_LIST=core,imgproc,objdetect,highgui \
       -D WITH_TBB=ON \
       -D WITH_V4L=ON \
       -D WITH_QT=ON \
-      -D WITH_OPENGL=ON \
-      -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
-      -D BUILD_EXAMPLES=ON ..
+      -D WITH_OPENGL=ON ..
 
 # compile and install
 make -j4
@@ -67,11 +74,20 @@ sudo make install
 sudo sh -c 'echo "/usr/local/lib" >> /etc/ld.so.conf.d/opencv.conf'
 sudo ldconfig
 
+# install Boost
+cd ..
+cd ..
+wget https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.gz
+tar -xvzf boost_1_76_0.tar.gz
+
 # configure cmake for project build
-cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+cd ..
+mkdir -p build
+cmake -B build -DCMAKE_BUILD_TYPE=Release
 
 # build the project
-cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+cmake --build build --config Release
 
-# 
-cmake --install ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --prefix ${{github.workspace}}/build/artifact
+# install the project
+mkdir -p artifact
+cmake --install build --config Release --prefix artifact

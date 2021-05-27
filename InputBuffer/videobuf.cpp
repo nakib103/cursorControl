@@ -1,73 +1,60 @@
-#ifndef VIDEO_INPUT_BUFFER
-#define VIDEO_INPUT_BUFFER
+#ifndef CC_VIDEO_INPUT_BUFFER
+#define CC_VIDEO_INPUT_BUFFER
 
-#include "opencv2\core\mat.hpp"
-#include "opencv2\highgui.hpp"
-#include "opencv2\imgproc.hpp"
+#include "InputBuffer.h"
 
-#include <queue>
+template <typename Input> Input InputBuffer<Input>::get(){
+    Input input;
+    if(!inputBuffer.empty()){
+        input = inputBuffer.front();
+        inputBuffer.pop();
+    }
+    return input;
+}
 
-// class for input buffer interface
-class InputBuffer{
-    public:
-        virtual void capture() = 0;
-        // TODO - how to make get function as interface
-        // template <typename input> input get() = 0;
-};
+VideoInputBuffer::VideoInputBuffer(){
+    frameSize.height = 320;
+    frameSize.width = 240;
+}
 
-// class to hold size of video frame
-class FrameSize{
-    public:
-        int height;
-        int width;
-};
+VideoInputBuffer::VideoInputBuffer(int height, int width){
+    frameSize.height = height;
+    frameSize.width = width;
+}
 
-// class for video input buffer
-class VideoInputBuffer : public InputBuffer {
+void VideoInputBuffer::capture(){
+    cv::VideoCapture capture;
     cv::Mat frame;
-    std::queue<cv::Mat> frameBuffer;
-    FrameSize frameSize;
 
-    public:
-        VideoInputBuffer(int height, int width){
-            frameSize.height = height;
-            frameSize.width = width;
-        }
+    // open webcam to capture a frame
+    capture.open (0);
+    if (!capture.isOpened ()) { 
+        printf ("[ERROR][InputBuffer:videobuf] VideoInputBUffer - could not open camera\n"); 
+        if (cv::waitKey (0) >= 0) return;
+    }
+    
+    // capture a frame
+    capture.read (frame);
+    capture.release();
+    if (frame.empty ()) {
+        printf ("[ERROR][InputBuffer:videobuf] VideoInputBUffer - failed tp capture frame\n");
+        return; 
+    }
 
-        void capture(){
-            cv::VideoCapture capture;
+    // resizing and mirroring the frame to reduce calculation and faster application
+    cv::resize (frame, frame, cv::Size(frameSize.height, frameSize.width), 0, 0, cv::INTER_CUBIC);
+    cv::flip (frame, frame, 1);
 
-            // open webcam to capture a frame
-            capture.open (0);
-            if (!capture.isOpened ()) { 
-                printf ("[ERROR][InputBuffer:videobuf] VideoInputBUffer - could not open camera\n"); 
-                if (cv::waitKey (0) >= 0) return;
-            }
-            
-            // capture a frame
-            capture.read (frame);
-            capture.release();
-            if (frame.empty ()) {
-                printf ("[ERROR][InputBuffer:videobuf] VideoInputBUffer - failed tp capture frame\n");
-                return; 
-            }
+    // insert the captured frame into buffer
+    put(frame);
+}
 
-            // resizing and mirroring the frame to reduce calculation and faster application
-            cv::resize (frame, frame, cv::Size(frameSize.height, frameSize.width), 0, 0, cv::INTER_CUBIC);
-            cv::flip (frame, frame, 1);
-
-            // insert the captured frame into buffer
-            frameBuffer.push(frame);
-        }
-        
-        cv::Mat get(){
-            cv::Mat currentFrame(cv::Size(frameSize.height, frameSize.width), -1);
-            if(!frameBuffer.empty()){
-                currentFrame = frameBuffer.front();
-                frameBuffer.pop();
-            }
-            return currentFrame;
-        }
-};
+// TEMP - just for testing; will be deleted later
+void VideoInputBuffer::show(){
+    cv::Mat currentFrame(cv::Size(frameSize.height, frameSize.width), -1);
+    currentFrame = get();
+    cv::imshow("test get", currentFrame);
+    cv::waitKey();
+}
 
 #endif

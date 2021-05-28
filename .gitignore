@@ -1,3 +1,4 @@
 **/.vscode
 **/*.exe
 cmake_tests/
+third_party/

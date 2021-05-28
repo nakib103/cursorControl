@@ -30,7 +30,7 @@ class CVTemplateFaceDetector : public Detector<cv::Point>{
 
 // class for face detector using opencv haar cascade classifier
 class CVCascadeFaceDetector : public Detector<cv::Rect>{
-    cv::String faceCascadeName = "G:\\Software\\opencv\\sources\\data\\haarcascades\\haarcascade_frontalface_alt.xml";
+    cv::String faceCascadeName = "..\\third_party\\opencv\\data\\haarcascades\\haarcascade_frontalface_alt.xml";
     cv::CascadeClassifier faceCascade;
     public:
         cv::Rect detect(int argc, ...);

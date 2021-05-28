@@ -31,7 +31,7 @@ sudo apt-get -y install qt5-default tar
 # sudo apt-get -y install libgphoto2-dev libeigen3-dev libhdf5-dev doxygen
 
 # download OpenCV from Github
-mkdir -p third-party && cd third-party
+mkdir -p third_party && cd third_party
 git clone https://github.com/opencv/opencv.git
 cd opencv
 git checkout 4.5.1
@@ -78,7 +78,7 @@ sudo ldconfig
 cd ..
 cd ..
 wget https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.gz
-tar -xvzf boost_1_76_0.tar.gz
+tar -xzf boost_1_76_0.tar.gz
 
 # configure cmake for project build
 cd ..

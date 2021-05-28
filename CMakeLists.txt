@@ -9,7 +9,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 configure_file(cursorControl.h.in cursorControl.h)
 
-# include third-party packages 
+# include third-party packages
+set(BOOST_ROOT ".\\third_party\\boost_1_76_0") 
 find_package(Boost 1.76.0 REQUIRED) 
 if(Boost_FOUND)
     message(STATUS "Boost_VERSION: ${Boost_VERSION}")
@@ -18,6 +19,7 @@ if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIR}) 
 endif()
 
+set(OpenCV_DIR "third_party\\opencv\\build")
 find_package(OpenCV REQUIRED)
 if(OpenCV_FOUND)
     message(STATUS "OpenCV_VERSION: ${OpenCV_VERSION}")

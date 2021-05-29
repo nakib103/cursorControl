@@ -53,7 +53,7 @@ tar -xzf boost_1_76_0.tar.gz
 # configure cmake for project build
 cd ..
 mkdir -p build
-cmake -B build ../../cursorControl
+cmake -B build ../cursorControl
 
 # build the project
 cmake --build build

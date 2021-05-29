@@ -5,27 +5,58 @@
 
 The goal of cursorControl is to enable a disabled person to use the technology the same way a non-disabled person would do. 
 
-## Design Principle
+## Design Concept
 cursorControl is an event-driven application and designed to be modular so that more functionalities can be added to it with greater flexibility. There are basically three parts of the system - 
 - Input buffers
 - Event processors
 - Controllers
 
-For example, to enable a disabled person who have not voluntary movement under the neck to control a mouse cursor we will use a video input buffer, a mouse mover event processor, and a mouse movement controller. Video input buffer stores the input from input device (webcam), the mouse mover event processor processes the frames and set the mouse contollers state to desired cursor location, and finally the mouse controller moves the cursor.
+For example, to enable a disabled person who have not voluntary movement under the neck to control a mouse cursor we will use a video input buffer, a mouse mover event processor, and a mouse movement controller. Video input buffer stores the input from input device (webcam), the mouse mover event processor processes the frames and set the mouse contollers state to desired cursor location, and finally the mouse controller moves the cursor. 
+
 
 ## Installation
-#### Building for source
+##### In Windows
+For build and install run the following command:
 
-For production release:
+```batch
+call build.bat
+```
+##### In Linux
+For build and install run the following command:
 
 ```sh
-gulp build --prod
+bash build.bat
 ```
 
-Generating pre-built zip archives for distribution:
+##### Installation Directory
+The installed application can be found in the **install** directory under source directory.
 
 ```sh
-gulp build dist --prod
++-- cursorControl
+!   +-- install
+!   !   +-- bin
+!   !   !   +-- cursorControl.exe
+!   !   +-- include
+!   !   +-- lib
+```
+
+##### Tested Environment
+In Windows
+![tests](https://img.shields.io/badge/test-1-yellow)
+|MSbulid|Cmake|OpenCV|Boost|
+|:---:|:---:|:---:|:--:|
+|15.9.21.664|3.10|4.5.1|1.76.0|
+In Linux
+![tests](https://img.shields.io/badge/test-none-red)
+### 
+## Usage
+Checking version
+```batch
+cursorControl.exe
+```
+Running the application
+```batch
+cursorControl.exe <anything>
 ```
 ## Contributing
 Want to contribute? Great!

@@ -54,11 +54,11 @@ tar -xzf boost_1_76_0.tar.gz
 # configure cmake for project build
 cd ..
 mkdir -p build
-cmake -B build -DCMAKE_BUILD_TYPE=Release
+cmake -B build ../../cursorControl
 
 # build the project
-cmake --build build --config Release
+cmake --build build
 
 # install the project
-mkdir -p artifact
-cmake --install build --config Release --prefix artifact
+mkdir -p install
+cmake --install build --config Debug --prefix install

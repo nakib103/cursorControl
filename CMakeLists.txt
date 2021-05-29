@@ -19,6 +19,7 @@ if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIR}) 
 endif()
 
+set(OpenCV_STATIC ON)
 set(OpenCV_DIR "third_party\\opencv\\build")
 find_package(OpenCV REQUIRED)
 if(OpenCV_FOUND)

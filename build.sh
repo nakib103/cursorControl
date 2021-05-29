@@ -38,10 +38,10 @@ git checkout 4.5.1
 cd ..
 
 # download opencv_contrib from Github
-git clone https://github.com/opencv/opencv_contrib.git
-cd opencv_contrib
-git checkout 4.5.1
-cd ..
+# git clone https://github.com/opencv/opencv_contrib.git
+# cd opencv_contrib
+# git checkout 4.5.1
+# cd ..
 
 # compile and Install OpenCV with contrib
 # create build directory inside opencv directory
@@ -61,12 +61,15 @@ cd build
 #       -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
 #       -D BUILD_EXAMPLES=ON ..
 cmake -D CMAKE_BUILD_TYPE=RELEASE \
+      # -D WITH_opencv_world=ON \
+      -D INSTALL_CREATE_DISTRIB=ON \
+      -D BUILD_SHARED_LIBS=ON \
       -D CMAKE_INSTALL_PREFIX=/usr/local \
-      -D BUILD_LIST=core,imgproc,objdetect,highgui \
+      -D BUILD_LIST=core,imgproc,objdetect,highgui,videoio \
       -D WITH_TBB=ON \
       -D WITH_V4L=ON \
-      -D WITH_QT=ON \
-      -D WITH_OPENGL=ON ..
+      -D WITH_QT=OFF \
+      -D WITH_OPENGL=ON  ..
 
 # compile and install
 make -j4

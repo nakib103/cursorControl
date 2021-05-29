@@ -1,4 +1,5 @@
 **/.vscode
 **/*.exe
+**/*.pptx
 cmake_tests/
 third_party/

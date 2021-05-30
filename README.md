@@ -71,7 +71,7 @@ options:
 --run            run the program
 ```
 ## Contributing
-:handshake: thsnks for considering contributing to this project.
+:handshake: thanks for considering contributing to this project.
 - any kind of question can be discussed in [slack](https://join.slack.com/t/cursorcontrolgroup/shared_invite/zt-qwzhxi4m-iNh3UmEdWQGDRcINwEd4EQ) channel 
 
 ## License

@@ -21,6 +21,9 @@ jobs:
     steps:
     - uses: microsoft/setup-msbuild@v1.0.2
       
+    - name: [debug] pwd
+      run: ls
+      
     - name: Build and Install
       run: .\build.bat dev
 #     - name: Configure CMake

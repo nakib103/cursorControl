@@ -118,7 +118,7 @@ set BUILD_DIR=build
 if exist %BUILD_DIR% rmdir /s /Q %BUILD_DIR%
 mkdir %BUILD_DIR%
 
-call cmake -B %BUILD_DIR%  -G "Visual Studio 15 2017" -A x64 -T host=x64 ..\..\cursorControl
+call cmake -B %BUILD_DIR% -A x64 -T host=x64 ..\cursorControl
 call cmake --build %BUILD_DIR%
 
 set INSTALL_DIR=install

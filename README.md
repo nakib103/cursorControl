@@ -71,7 +71,9 @@ options:
 --run            run the program
 ```
 ## Contributing
-Want to contribute? Great!
+:handshake: thsnks for considering contributing to this project.
+- any kind of question can be discussed in [slack](https://join.slack.com/t/cursorcontrolgroup/shared_invite/zt-qwzhxi4m-iNh3UmEdWQGDRcINwEd4EQ) channel 
+
 ## License
 
-GNU Public License v3
+This software is [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html) lcensed.

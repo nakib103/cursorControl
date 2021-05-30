@@ -1,8 +1,12 @@
 :: build script for cursorControl package
 
-set env=%1
+set env=%~1
 
-if %env% == local GOTO :LOCALBUILD
+if "%env%" == "local" (
+    GOTO :LOCALBUILD
+) else (
+    GOTO :BUILD
+)
 
 :BUILD
 
@@ -66,9 +70,12 @@ if not exist "opencv" (
 )
 
 :: build boost
-curl -L https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.gz --output boost_1_76_0.tar.gz --silent
-tar -xzf boost_1_76_0.tar.gz
-
+if not exist "boost_1_76_0" (
+    curl -L https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.gz --output boost_1_76_0.tar.gz --silent
+    tar -xzf boost_1_76_0.tar.gz
+) else (
+    @echo boost directory found, assuming boost installed ..
+)
 cd ..
 
 :: build cursorcontrol

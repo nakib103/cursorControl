@@ -87,7 +87,7 @@ if not exist "opencv" (
         -D WITH_V4L=ON ^
         -D WITH_QT=OFF ^
         -D WITH_OPENGL=ON  ^
-        -G "Visual Studio 15 2017" -A x64 -T host=x64 ..
+        -A x64 -T host=x64 ..
     if not ERRORLEVEL 0 (
         @echo cannot create cmake directory for opencv
         exit /b %ERRORLEVEL%

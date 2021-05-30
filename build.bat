@@ -44,25 +44,21 @@ where tar.exe >nul 2>nul
 If %ERRORLEVEL% neq 0 (
     @echo tar.exe not found in path, installing ..
     choco install tartool
-    If %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 )
 where msbuild.exe >nul 2>nul
 If %ERRORLEVEL% neq 0 (
     @echo msbuild.exe not found in path, installing ..
     choco install microsoft-build-tools
-    If %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 )
 where git.exe >nul 2>nul
 If %ERRORLEVEL% neq 0 (
     @echo git.exe not found in path, installing ..
     choco install git.install
-    If %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 )
 where curl.exe >nul 2>nul
 If %ERRORLEVEL% neq 0 (
     @echo curl.exe not found in path, installing ..
     choco install curl
-    If %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 )
 
 :: build opencv

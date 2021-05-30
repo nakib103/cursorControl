@@ -11,7 +11,7 @@ cursorControl is an event-driven application and designed to be modular so that 
 - Event processors
 - Controllers
 
-![Concept](docs\concept.JPG)
+![Concept](/docs/concept.JPG)
 
 For example, to enable a disabled person who have no voluntary movement under the neck to control a mouse cursor we will use a video input buffer, a mouse mover event processor, and a mouse movement controller. Video input buffer stores the input from input device (webcam), the mouse mover event processor processes the frames and set the mouse contollers state to desired cursor location, and finally the mouse controller moves the cursor. 
 

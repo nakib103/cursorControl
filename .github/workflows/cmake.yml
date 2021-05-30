@@ -20,8 +20,6 @@ jobs:
 
     steps:
     - uses: microsoft/setup-msbuild@v1.0.2
-      with:
-        vs-version: '[15.9.21.664]'
       
     - name: Build and Install
       run: .\build.bat dev

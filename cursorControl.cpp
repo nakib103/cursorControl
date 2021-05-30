@@ -16,7 +16,7 @@
 
 using namespace std;
 
-const char* usage = "cursorControl: contorl devices virtually\n"
+const char* usage = "cursorControl: control devices virtually\n"
 				"options:\n"
 				"-V, --version\t print version\n"
 				"--run\t\t run the program";

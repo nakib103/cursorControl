@@ -36,46 +36,6 @@ if not ERRORLEVEL 0 (
     exit /b %ERRORLEVEL%
 )
 
-:: build opencv
-cd third_party
-if not exist "opencv" (
-    @echo "no opencv directory found, installing opencv .."
-    git clone https://github.com/opencv/opencv.git
-    cd opencv
-    git checkout 4.5.1
-
-    if not exist "build" ( 
-        mkdir build
-    )
-    cd build
-
-    cmake -D CMAKE_BUILD_TYPE=RELEASE \
-      -D INSTALL_CREATE_DISTRIB=ON \
-      -D BUILD_SHARED_LIBS=ON \
-      -D CMAKE_INSTALL_PREFIX=/usr/local \
-      -D BUILD_LIST=core,imgproc,objdetect,highgui,videoio \
-      -D WITH_TBB=ON \
-      -D WITH_V4L=ON \
-      -D WITH_QT=OFF \
-      -D WITH_OPENGL=ON  ..
-
-    msbuild OpenCV.sln
-
-    cd ..
-    cd ..
-) else (
-    @echo opencv directory found, assuming opencv installed ..
-)
-
-:: build boost
-if not exist "boost_1_76_0" (
-    curl -L https://boostorg.jfrog.io/artifactory/main/release/1.76.0/source/boost_1_76_0.tar.gz --output boost_1_76_0.tar.gz --silent
-    tar -xzf boost_1_76_0.tar.gz
-) else (
-    @echo boost directory found, assuming boost installed ..
-)
-cd ..
-
 GOTO :BUILD
 
 :PACKAGEINSTALL
@@ -118,17 +78,26 @@ if not exist "opencv" (
     )
     cd build
 
-    cmake -D CMAKE_BUILD_TYPE=RELEASE `
-      -D INSTALL_CREATE_DISTRIB=ON `
-      -D BUILD_SHARED_LIBS=ON `
-      -D CMAKE_INSTALL_PREFIX=/usr/local `
-      -D BUILD_LIST=core,imgproc,objdetect,highgui,videoio `
-      -D WITH_TBB=ON `
-      -D WITH_V4L=ON `
-      -D WITH_QT=OFF `
-      -D WITH_OPENGL=ON  ..
+    cmake -D CMAKE_BUILD_TYPE=RELEASE ^
+        -D INSTALL_CREATE_DISTRIB=ON ^
+        -D BUILD_SHARED_LIBS=ON ^
+        -D CMAKE_INSTALL_PREFIX=/usr/local ^
+        -D BUILD_LIST=core,imgproc,objdetect,highgui,videoio ^
+        -D WITH_TBB=ON ^
+        -D WITH_V4L=ON ^
+        -D WITH_QT=OFF ^
+        -D WITH_OPENGL=ON  ^
+        -G "Visual Studio 15 2017" -A x64 -T host=x64 ..
+    if not ERRORLEVEL 0 (
+        @echo cannot create cmake directory for opencv
+        exit /b %ERRORLEVEL%
+    )
 
     msbuild OpenCV.sln
+    if not ERRORLEVEL 0 (
+        @echo cannot build opencv
+        exit /b %ERRORLEVEL%
+    )
 
     cd ..
     cd ..

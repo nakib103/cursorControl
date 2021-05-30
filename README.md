@@ -19,8 +19,14 @@ For example, to enable a disabled person who have not voluntary movement under t
 For build and install run the following command:
 
 ```batch
-call build.bat
+build.bat
 ```
+
+if chocolatey is installed you can run following command and it will install dependednt software:
+```batch
+build.bat dev
+```
+
 ##### In Linux
 For build and install run the following command:
 
@@ -52,11 +58,10 @@ In Linux
 ## Usage
 Checking version
 ```batch
-cursorControl.exe
-```
-Running the application
-```batch
-cursorControl.exe <anything>
+cursorControl: contorl devices virtually
+options:
+-V, --version    print version
+--run            run the program
 ```
 ## Contributing
 Want to contribute? Great!

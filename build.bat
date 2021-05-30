@@ -2,13 +2,13 @@
 
 set env=%~1
 
-if "%env%" == "local" (
-    GOTO :LOCALBUILD
+if "%env%" == "dev" (
+    GOTO :PACKAGEINSTALL
 ) else (
-    GOTO :BUILD
+    GOTO :PACKAGECHECK
 )
 
-:BUILD
+:PACKAGECHECK
 
 :: check if dependent commands are available
 where tar.exe >nul 2>nul
@@ -31,6 +31,39 @@ if not ERRORLEVEL 0 (
     @echo curl.exe not found in path, please install it ..
     exit /b %ERRORLEVEL%
 )
+
+GOTO :BUILD
+
+:PACKAGEINSTALL
+:: check if dependent commands are available, if not install them
+where tar.exe >nul 2>nul
+if not ERRORLEVEL 0 (
+    @echo tar.exe not found in path, installing ..
+    choco install tartool
+    if not ERRORLEVEL 0 exit /b %ERRORLEVEL%
+)
+where msbuild.exe >nul 2>nul
+if not ERRORLEVEL 0 (
+    @echo msbuild.exe not found in path, installing ..
+    choco install microsoft-build-tools
+    if not ERRORLEVEL 0 exit /b %ERRORLEVEL%
+)
+where git.exe >nul 2>nul
+if not ERRORLEVEL 0 (
+    @echo git.exe not found in path, installing ..
+    choco install git.install
+    if not ERRORLEVEL 0 exit /b %ERRORLEVEL%
+)
+where curl.exe >nul 2>nul
+if not ERRORLEVEL 0 (
+    @echo curl.exe not found in path, installing ..
+    choco install curl
+    if not ERRORLEVEL 0 exit /b %ERRORLEVEL%
+)
+
+GOTO :BUILD
+
+:BUILD
 
 :: create third_party directory
 if not exist "third_party" (
@@ -96,12 +129,12 @@ call cmake --install %BUILD_DIR% --config Debug --prefix %INSTALL_DIR%
 @echo build finished ..
 GOTO :eof
 
-:LOCALBUILD
+@REM :LOCALBUILD
 
-set BUILD_DIR=cmake_tests
-if exist %BUILD_DIR% rmdir /s /Q %BUILD_DIR%
-mkdir %BUILD_DIR%
+@REM set BUILD_DIR=cmake_tests
+@REM if exist %BUILD_DIR% rmdir /s /Q %BUILD_DIR%
+@REM mkdir %BUILD_DIR%
 
-call cmake -B %BUILD_DIR%  -G "Visual Studio 15 2017" -A x64 -T host=x64 ..\..\cursorControl
-call cmake --build %BUILD_DIR%
-call cmake --install %BUILD_DIR% --config Debug --prefix C:\Users\Asus\Desktop\cursorControl
+@REM call cmake -B %BUILD_DIR%  -G "Visual Studio 15 2017" -A x64 -T host=x64 ..\..\cursorControl
+@REM call cmake --build %BUILD_DIR%
+@REM call cmake --install %BUILD_DIR% --config Debug --prefix C:\Users\Asus\Desktop\cursorControl

@@ -16,22 +16,22 @@ if "%env%" == "dev" (
 
 :: check if dependent commands are available
 where tar.exe >nul 2>nul
-if not ERRORLEVEL 0 (
+If %ERRORLEVEL% neq 0 (
     @echo tar.exe not found in path, please install it ..
     exit /b %ERRORLEVEL%
 )
 where msbuild.exe >nul 2>nul
-if not ERRORLEVEL 0 (
+If %ERRORLEVEL% neq 0 (
     @echo msbuild.exe not found in path, please install it ..
     exit /b %ERRORLEVEL%
 )
 where git.exe >nul 2>nul
-if not ERRORLEVEL 0 (
+If %ERRORLEVEL% neq 0 (
     @echo git.exe not found in path, please install it ..
     exit /b %ERRORLEVEL%
 )
 where curl.exe >nul 2>nul
-if not ERRORLEVEL 0 (
+If %ERRORLEVEL% neq 0 (
     @echo curl.exe not found in path, please install it ..
     exit /b %ERRORLEVEL%
 )
@@ -41,28 +41,28 @@ GOTO :BUILD
 :PACKAGEINSTALL
 :: check if dependent commands are available, if not install them
 where tar.exe >nul 2>nul
-if not ERRORLEVEL 0 (
+If %ERRORLEVEL% neq 0 (
     @echo tar.exe not found in path, installing ..
     choco install tartool
-    if not ERRORLEVEL 0 exit /b %ERRORLEVEL%
+    If %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 )
 where msbuild.exe >nul 2>nul
-if not ERRORLEVEL 0 (
+If %ERRORLEVEL% neq 0 (
     @echo msbuild.exe not found in path, installing ..
     choco install microsoft-build-tools
-    if not ERRORLEVEL 0 exit /b %ERRORLEVEL%
+    If %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 )
 where git.exe >nul 2>nul
-if not ERRORLEVEL 0 (
+If %ERRORLEVEL% neq 0 (
     @echo git.exe not found in path, installing ..
     choco install git.install
-    if not ERRORLEVEL 0 exit /b %ERRORLEVEL%
+    If %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 )
 where curl.exe >nul 2>nul
-if not ERRORLEVEL 0 (
+If %ERRORLEVEL% neq 0 (
     @echo curl.exe not found in path, installing ..
     choco install curl
-    if not ERRORLEVEL 0 exit /b %ERRORLEVEL%
+    If %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 )
 
 :: build opencv
@@ -88,13 +88,13 @@ if not exist "opencv" (
         -D WITH_QT=OFF ^
         -D WITH_OPENGL=ON  ^
         -A x64 -T host=x64 ..
-    if not ERRORLEVEL 0 (
+    If %ERRORLEVEL% neq 0 (
         @echo cannot create cmake directory for opencv
         exit /b %ERRORLEVEL%
     )
 
     msbuild OpenCV.sln
-    if not ERRORLEVEL 0 (
+    If %ERRORLEVEL% neq 0 (
         @echo cannot build opencv
         exit /b %ERRORLEVEL%
     )
